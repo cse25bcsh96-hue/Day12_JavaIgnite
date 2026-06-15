@@ -1,123 +1,123 @@
-/*
-Digital Library System
+package JAVA_DAY_12;
+import java.io.*;
+import java.util.Scanner;
 
-Create:
+class Book {
+    int id;
+    String title;
+    double price;
 
-Book
-│
-| -  EBook
-│
-| - PrintedBook
+    Book(int id, String title, String price) {
+        this.id = id;
+        this.title = title;
+        this.price = Double.parseDouble(price);
+    }
 
-Requirements:
+    void showBookType() {
+        System.out.println("General Book");
+    }
+    void searchBook(int id) {
+        if (this.id == id) {
+            System.out.println("Book Found:");
+            display();
+        } else {
+            System.out.println("Book ID not found");
+        }
+    }
 
-Override:
+    void searchBook(String title) {
+        if (this.title.equalsIgnoreCase(title)) {
+            System.out.println("Book Found:");
+            display();
+        } else {
+            System.out.println("Book Title not found");
+        }
+    }
 
-showBookType()
+    void display() {
+        System.out.println("ID: " + id);
+        System.out.println("Title: " + title);
+        System.out.println("Price: " + price);
+    }
+}
+class EBook extends Book {
 
-for each child class.
+    EBook(int id, String title, String price) {
+        super(id, title, price);
+    }
 
-Overloading:
+    @Override
+    void showBookType() {
+        System.out.println("Book Type: E-Book");
+    }
+}
+class PrintedBook extends Book {
 
-Create:
+    PrintedBook(int id, String title, String price) {
+        super(id, title, price);
+    }
 
-searchBook(int id)
+    @Override
+    void showBookType() {
+        System.out.println("Book Type: Printed Book");
+    }
+}
 
-searchBook(String title)
+public class DIGITAL_LIBRARY_SYSTEM {
 
-Wrapper Class Requirement:
+    public static void main(String[] args) {
+    	// TODO Auto-generated method stub
+        Scanner sc = new Scanner(System.in);
 
-Convert:
+        EBook b1 = new EBook(101, "JAVA PROGRAMMING(NEW EDITION)", "650.00");
+        PrintedBook b2 = new PrintedBook(102, "DATA STRUCTURES(NEW EDITION WITH UPDATED VERSION)", "549.00");
 
-Book Price (String)
+        b1.showBookType();
+        b2.showBookType();
 
-into numeric value using Wrapper Classes.
+        System.out.println();
+        b1.searchBook(101);
+        System.out.println();
+        b2.searchBook(102);
+        System.out.println();
 
-File Handling:
+        try {
+            FileWriter fw = new FileWriter("library.txt");
 
-Store all book details in:
+            fw.write("ID: " + b1.id + "\n");
+            fw.write("Title: " + b1.title + "\n");
+            fw.write("Price: " + b1.price + "\n\n");
 
-library.txt
-1. Create Parent Class: Book
-Add variables:
-bookId
-title
-price (Store as String)
-Create a constructor to initialize values.
-Create a method:
-showBookType()
+            fw.write("ID: " + b2.id + "\n");
+            fw.write("Title: " + b2.title + "\n");
+            fw.write("Price: " + b2.price + "\n");
 
-Hint:
+            fw.close();
 
-Use instance variables.
-Constructor should receive values from the user/program.
-Create Child Class: EBook
-Extend Book.
-Override showBookType().
+            System.out.println("Book details stored successfully.\n");
 
-Hint:
+        } catch (IOException e) {
+            System.out.println("File Writing Error");
+        }
 
-Use extends keyword.
-Use @Override annotation.
-3. Create Child Class: PrintedBook
-Extend Book.
-Override showBookType().
+        try {
+            BufferedReader br = new BufferedReader(
+                    new FileReader("library.txt"));
 
-Hint:
+            String line;
 
-Same method name as parent class.
-Display a different message.
-4. Implement Method Overloading
+            System.out.println("Contents of library.txt:\n");
 
-Create:
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
 
-searchBook(int id)
-searchBook(String title)
+            br.close();
 
-Hint:
+        } catch (IOException e) {
+            System.out.println("File Reading Error");
+        }
 
-Method name should be the same.
-Parameters should be different.
-5. Demonstrate Wrapper Class
-Store price as a String.
-Convert it into a numeric value.
-Display the converted value.
-
-Hint:
-
-Use Wrapper Class methods such as:
-Integer.parseInt()
-Double.parseDouble()
-6. Write Book Details to File
-Create a file named library.txt.
-Store book details in the file.
-
-Hint:
-
-Use:
-FileWriter
-BufferedWriter
-7. Read Book Details from File
-Read all records from library.txt.
-Display them on the console.
-
-Hint:
-
-Use:
-FileReader
-BufferedReader
-Read line by line.
-8. Main Method
-Create an EBook object.
-Create a PrintedBook object.
-Call overridden methods.
-Call overloaded methods.
-Convert String price to numeric value.
-Write details to file.
-Read details from file.
-
-Hint:
-
-Test each feature one by one before moving to the next.
-and read them back.
-*/
+        sc.close();
+    }
+}
