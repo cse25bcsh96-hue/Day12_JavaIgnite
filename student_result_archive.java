@@ -1,37 +1,101 @@
-/*
-Student Result Archive
+package JAVA_DAY_12;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+class Student {
+    int rollNo;
+    String name;
+    double marks;
 
-Create:
+    Student(int rollNo, String name, double marks) {
+        this.rollNo = rollNo;
+        this.name = name;
+        this.marks = marks;
+    }
+    void calculateGrade() {
+        if (marks >= 90)
+            System.out.println("Grade: A");
+        else if (marks >= 75)
+            System.out.println("Grade: B");
+        else if (marks >= 60)
+            System.out.println("Grade: C");
+        else
+            System.out.println("Grade: D");
+    }
+    void displayResult() {
+        System.out.println("Roll No: " + rollNo);
+        System.out.println("Name: " + name);
+        System.out.println("Marks: " + marks);
+    }
+    void displayResult(String semester) {
+        System.out.println("Semester: " + semester);
+        displayResult();
+    }
+}
+class GraduateStudent extends Student {
+    GraduateStudent(int rollNo, String name, double marks) {
+        super(rollNo, name, marks);
+    }
 
-Student
-│
-| - GraduateStudent
+    @Override
+    void calculateGrade() {
+        if (marks >= 85)
+            System.out.println("Grade: Distinction");
+        else if (marks >= 70)
+            System.out.println("Grade: First Class");
+        else if (marks >= 50)
+            System.out.println("Grade: Second Class");
+        else
+            System.out.println("Grade: Fail");
+    }
+}
 
-Requirements:
+public class STUDENT_RESULT_ARCHIVE {
 
-Override:
+    public static void main(String[] args) {
+    	// TODO Auto-generated method stub
+        GraduateStudent s1 =
+                new GraduateStudent(101, "STWATRA", 91);
 
-calculateGrade()
+        s1.displayResult();
+        System.out.println();
 
-for GraduateStudent.
+        s1.displayResult("Semester 3");
+        System.out.println();
+        s1.calculateGrade();
+        try {
+            FileOutputStream fout =
+                    new FileOutputStream("studentResult.txt");
 
-Overloading:
+            String data =
+                    "Roll No: " + s1.rollNo + "\n" +
+                    "Name: " + s1.name + "\n" +
+                    "Marks: " + s1.marks + "\n";
 
-Create:
+            fout.write(data.getBytes());
+            fout.close();
 
-displayResult()
+            System.out.println("\nStudent result saved successfully.");
 
-displayResult(String semester)
+        } catch (IOException e) {
+            System.out.println("Error while writing file.");
+        }
+        try {
+            FileInputStream fin =
+                    new FileInputStream("studentResult.txt");
 
-Use:
+            int ch;
 
-FileOutputStream
+            System.out.println("\nContents of studentResult.txt:\n");
 
-to save student result data.
+            while ((ch = fin.read()) != -1) {
+                System.out.print((char) ch);
+            }
 
-Use:
+            fin.close();
 
-FileInputStream
-
-to read and display the data.
-  */
+        } catch (IOException e) {
+            System.out.println("Error while reading file.");
+        }
+    }
+}
